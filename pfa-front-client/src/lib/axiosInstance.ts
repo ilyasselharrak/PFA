@@ -56,7 +56,7 @@ api.interceptors.response.use(
 
       try {
         const response = await axios.post<{ accessToken: string; refreshToken: string }>(
-          "http://pfa-production-7b1b.up.railway.app/auth/refresh-token",
+          "https://pfa-production-7b1b.up.railway.app/auth/refresh-token",
           { refreshToken }
         );
 
