@@ -45,7 +45,10 @@ public interface ReclamationRepository extends JpaRepository<Reclamation, Long>{
     
     @Query("SELECT r.priority.priority, AVG(TIMESTAMPDIFF(HOUR, r.dateDepot, r.dateModification)) FROM Reclamation r WHERE r.status.status = 'résolu' GROUP BY r.priority.priority")
     List<Object[]> getAverageResolutionTimeByPriority();
-    // Ajouter ces méthodes
-long countByClientId(Long clientId);
-long countByClientIdAndStatusStatus(Long clientId, String status);
+    
+    long countByClientId(Long clientId);
+    long countByClientIdAndStatusStatus(Long clientId, String status);
+    List<Reclamation> findByPriorityId(Long priorityId);
+    List<Reclamation> findByStatusId(Long statusId);
+    List<Reclamation> findByCategorieId(Long categorieId);
 }

@@ -1,6 +1,8 @@
 package com.emsi.pfa.model;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,10 +18,21 @@ public class Commentaire {
     private LocalDateTime  dateCommentaire = LocalDateTime.now();
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User user;
+    @JsonIgnoreProperties({
+    "notifications",
+    "historiques",
+    "commentaires"
+    })
+private User user;
     @ManyToOne
     @JoinColumn(name = "reclamation_id")
-    private Reclamation reclamation;
+    @JsonIgnoreProperties({
+    "historiques",
+    "commentaires",
+    "affectations",
+    "reponses"
+    })
+private Reclamation reclamation;
 
     private Boolean approuveParAdmin;
 

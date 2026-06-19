@@ -3,6 +3,8 @@ package com.emsi.pfa.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class RefreshToken {
 
@@ -15,6 +17,13 @@ public class RefreshToken {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnoreProperties({
+    "refreshTokens",
+    "notifications",
+    "historiques",
+    "commentaires",
+    "piecesJointes"
+    })
     private User user;
 
     private LocalDateTime expiryDate;

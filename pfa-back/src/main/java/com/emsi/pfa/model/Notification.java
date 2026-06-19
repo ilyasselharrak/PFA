@@ -1,6 +1,8 @@
 package com.emsi.pfa.model;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,12 +20,23 @@ public class Notification {
     private LocalDateTime dateEnvoi = LocalDateTime.now();
     private boolean lue = false;
 
-    @ManyToOne 
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    private User  user;
+    @JsonIgnoreProperties({
+    "notifications",
+    "historiques",
+    "commentaires"
+    })
+private User user;
     @ManyToOne
     @JoinColumn(name = "reclamation_id")
-    private Reclamation reclamation;
+    @JsonIgnoreProperties({
+    "historiques",
+    "commentaires",
+    "affectations",
+    "reponses"
+    })
+private Reclamation reclamation;
 
     public Notification() {}
 

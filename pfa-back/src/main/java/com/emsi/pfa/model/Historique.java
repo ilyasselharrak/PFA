@@ -7,6 +7,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Entity
 public class Historique {
     
@@ -20,6 +22,11 @@ public class Historique {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({
+    "notifications",
+    "historiques",
+    "commentaires"
+    })
     private User user;
     @ManyToOne
     @JoinColumn(name = "reclamation_id") 

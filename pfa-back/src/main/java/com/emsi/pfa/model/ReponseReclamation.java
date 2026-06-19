@@ -8,6 +8,8 @@ import jakarta.persistence.ManyToOne;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 public class ReponseReclamation {
     @Id
@@ -17,9 +19,20 @@ public class ReponseReclamation {
     private LocalDateTime dateCreation = LocalDateTime.now();
     @ManyToOne
     @JoinColumn(name = "agent_id")
+    @JsonIgnoreProperties({
+    "affectations",
+    "reponses"
+    })
     private Agent agent;
+    
     @ManyToOne
     @JoinColumn(name = "reclamation_id")
+    @JsonIgnoreProperties({
+    "historiques",
+    "commentaires",
+    "affectations",
+    "reponses"
+    })
     private Reclamation reclamation;
 
      public ReponseReclamation() {}

@@ -7,6 +7,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.util.List;
+import java.util.ArrayList;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Reclamation {
@@ -32,6 +37,27 @@ public class Reclamation {
 
     private Boolean valideeParAdmin;
     private Boolean confirmeParClient;
+    @OneToMany(mappedBy = "reclamation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Historique> historiques = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reclamation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Commentaire> commentaires = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reclamation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Affectation> affectations = new ArrayList<>();
+
+    @OneToMany(mappedBy = "reclamation", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<ReponseReclamation> reponses = new ArrayList<>();
+    @OneToMany(mappedBy = "reclamation",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnore
+    private List<Notification> notifications = new ArrayList<>();
+    @OneToMany(mappedBy = "reclamation",cascade = CascadeType.ALL,orphanRemoval = true)
+    @JsonIgnore
+    private List<PieceJointe> piecesJointes = new ArrayList<>();
 
     public Reclamation() {}
     

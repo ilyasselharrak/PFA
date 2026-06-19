@@ -1,4 +1,6 @@
 package com.emsi.pfa.model;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,10 +18,22 @@ public class PieceJointe {
 
     @ManyToOne
     @JoinColumn(name = "reclamation_id")
+    @JsonIgnoreProperties({
+    "historiques",
+    "commentaires",
+    "affectations",
+    "reponses"
+    })
     private Reclamation reclamation;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({
+    "piecesJointes",
+    "notifications",
+    "historiques",
+    "commentaires"
+    })
     private User user;
 
 

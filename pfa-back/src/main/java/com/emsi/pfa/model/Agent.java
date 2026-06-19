@@ -1,11 +1,18 @@
 package com.emsi.pfa.model;
 
+import java.util.ArrayList;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.CascadeType;
+import java.util.List;
 @Entity
 public class Agent {
     @Id
@@ -16,6 +23,12 @@ public class Agent {
     @OneToOne
     @JoinColumn(name = "user_id", unique = true)
     private User user;
+    @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Affectation> affectations = new ArrayList<>();
+    @OneToMany(mappedBy = "agent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<ReponseReclamation> reponses = new ArrayList<>();
 
     public Agent() {}
     

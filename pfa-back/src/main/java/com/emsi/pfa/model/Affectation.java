@@ -1,12 +1,15 @@
 package com.emsi.pfa.model;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+
 
 @Entity
 public class Affectation {
@@ -19,11 +22,17 @@ public class Affectation {
 
     @ManyToOne
     @JoinColumn(name = "agent_id")
+    @JsonIgnoreProperties({"affectations"})
     private Agent agent;
     @ManyToOne
     @JoinColumn(name = "reclamation_id")
-    private Reclamation reclamation;
-
+    @JsonIgnoreProperties({
+    "historiques",
+    "commentaires",
+    "affectations",
+    "reponses"
+})
+private Reclamation reclamation;
 
     public Affectation() {}
 

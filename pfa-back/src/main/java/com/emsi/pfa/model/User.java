@@ -5,13 +5,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.CascadeType;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.util.List;
+
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
@@ -42,7 +46,31 @@ public class User {
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Client client;
-    
+    @OneToMany(mappedBy = "user",
+           cascade = CascadeType.ALL,
+           orphanRemoval = true)
+    @JsonIgnore
+    private List<Notification> notifications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",
+           cascade = CascadeType.ALL,
+           orphanRemoval = true)
+    @JsonIgnore
+    private List<Historique> historiques = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user",
+           cascade = CascadeType.ALL,
+           orphanRemoval = true)
+    @JsonIgnore
+    private List<Commentaire> commentaires = new ArrayList<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<PieceJointe> piecesJointes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<RefreshToken> refreshTokens = new ArrayList<>();
+
     public User() {}
     
     public Long getId() {
