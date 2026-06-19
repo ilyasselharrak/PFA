@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosError } from 'axios';
 
 const api: AxiosInstance = axios.create({
-  baseURL: "http://pfa-production-7b1b.up.railway.app",
+  baseURL: "https://pfa-production-7b1b.up.railway.app",
   headers: { "Content-Type": "application/json" },
 });
 
