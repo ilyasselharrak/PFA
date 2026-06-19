@@ -11,7 +11,6 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 public class PfaApplication {
 
 	public static void main(String[] args) {
-		System.out.println("HASH: " + new org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder().encode("admin123"));
 		SpringApplication.run(PfaApplication.class, args);
 	}
 
