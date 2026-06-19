@@ -111,9 +111,7 @@ export default function UsersPage() {
 			u.email?.toLowerCase().includes(search.toLowerCase()),
 	);
 	const isadminConnected = selected?.id === user?.userId;
-	console.log(isadminConnected);
-	console.log("selected id =", selected?.id);
-	console.log("user id =", user?.userId);
+	
 	const userPanel = (
 		<>
 			<div className="text-xs text-slate-400 tracking-wider uppercase font-semibold">
@@ -297,7 +295,7 @@ export default function UsersPage() {
 											setSelected(u);
 											setEditModal(true);
 										}}
-										className="w-3.5 h-3.5 border-2 border-slate-200 border-t-slate-500 rounded-full animate-spin"
+										className="w-3.5 h-3.5 border-2 border-slate-200 border-t-slate-500 rounded-full "
 									>
 										<Edit2 size={13} />
 									</button>
