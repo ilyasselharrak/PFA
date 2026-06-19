@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosError } from 'axios';
 
 const api: AxiosInstance = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "http://pfa-production-7b1b.up.railway.app",
   headers: { "Content-Type": "application/json" },
 });
 
@@ -56,7 +56,7 @@ api.interceptors.response.use(
 
       try {
         const response = await axios.post<{ accessToken: string; refreshToken: string }>(
-          "http://localhost:8080/auth/refresh-token",
+          "http://pfa-production-7b1b.up.railway.app/auth/refresh-token",
           { refreshToken }
         );
 
