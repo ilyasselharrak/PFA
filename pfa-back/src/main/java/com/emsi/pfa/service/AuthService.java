@@ -3,6 +3,7 @@ package com.emsi.pfa.service;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,8 @@ public class AuthService {
 
     @Autowired
     private RefreshTokenService refreshTokenService;
+    @Autowired
+    private EmailService emailService;
 
     public Map<String, String> login(String email, String password) {
         User user = userRepository.findByEmail(email)
@@ -102,4 +105,37 @@ public class AuthService {
         user.setReponseSecurite(passwordEncoder.encode(reponse));
         userRepository.save(user);
     }
+    public void sendResetCode(String email) {
+        try {
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Email introuvable"));
+
+    String code = String.format("%06d", new Random().nextInt(999999));
+
+    user.setResetCode(code);
+    user.setResetCodeExpiry(LocalDateTime.now().plusMinutes(10));
+
+    userRepository.save(user);
+
+    emailService.sendResetCode(email, code);
+        } catch (Exception e) {
+            throw new RuntimeException("Erreur lors de l'envoi du code de réinitialisation : " + e.getMessage());
+        }
+    }
+
+    public String verifyCode(String email, String code) {
+
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+
+    if (!code.equals(user.getResetCode())) {
+        throw new RuntimeException("Code invalide");
+    }
+
+    if (user.getResetCodeExpiry().isBefore(LocalDateTime.now())) {
+        throw new RuntimeException("Code expiré");
+    }
+
+    return jwtService.generateResetToken(user);
+}
 }

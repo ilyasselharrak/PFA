@@ -12,7 +12,7 @@ import com.emsi.pfa.dto.RefreshTokenRequest;
 import com.emsi.pfa.dto.ResetPasswordRequest;
 import com.emsi.pfa.dto.SetupSecurityQuestionRequest;
 import com.emsi.pfa.service.AuthService;
-
+import com.emsi.pfa.dto.VerifyCodeRequest;
 import java.util.Map;
 
 @RestController
@@ -21,6 +21,7 @@ public class AuthController {
 
     @Autowired
     private AuthService service;
+  
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
@@ -41,13 +42,9 @@ public class AuthController {
     }
 
     @PostMapping("/forgot-password")
-    public ResponseEntity<?> forgotPassword(@Valid @RequestBody ForgotPasswordRequest request) {
-        try {
-            String resetToken = service.forgotPassword(request.getEmail(), request.getReponse());
-            return ResponseEntity.ok(Map.of("resetToken", resetToken));
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
-        }
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+    service.sendResetCode(request.getEmail());
+    return ResponseEntity.ok(Map.of("message", "Code envoyé par email"));
     }
 
     @PostMapping("/reset-password")
@@ -71,5 +68,17 @@ public class AuthController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
         }
+    }
+    @PostMapping("/verify-code")
+    public ResponseEntity<?> verifyCode(@RequestBody VerifyCodeRequest request) {
+
+    String token = service.verifyCode(
+            request.getEmail(),
+            request.getCode()
+    );
+
+    return ResponseEntity.ok(
+            Map.of("resetToken", token)
+    );
     }
 }

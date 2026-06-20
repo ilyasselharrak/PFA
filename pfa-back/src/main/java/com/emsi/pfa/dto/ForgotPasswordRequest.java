@@ -9,12 +9,10 @@ public class ForgotPasswordRequest {
     @Email(message = "Format email invalide")
     private String email;
 
-    @NotBlank(message = "La réponse est requise")
-    private String reponse;
+
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
 
-    public String getReponse() { return reponse; }
-    public void setReponse(String reponse) { this.reponse = reponse; }
+
 }

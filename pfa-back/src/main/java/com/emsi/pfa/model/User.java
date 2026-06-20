@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -29,6 +30,11 @@ public class User {
     private String email;
     private String password;
     private LocalDateTime dateCreation = LocalDateTime.now();
+    @Column(name = "reset_code")
+    private String resetCode;
+
+    @Column(name = "reset_code_expiry")
+    private LocalDateTime resetCodeExpiry;
     private String questionSecurite;
     @JsonIgnore
     private String reponseSecurite;
@@ -172,4 +178,21 @@ public class User {
     public void setDateCreation(LocalDateTime dateCreation) {
         this.dateCreation = dateCreation;
     }
+
+    public String getResetCode() {
+        return resetCode;
+    }
+
+    public void setResetCode(String resetCode) {
+        this.resetCode = resetCode;
+    }
+
+    public LocalDateTime getResetCodeExpiry() {
+        return resetCodeExpiry;
+    }
+
+    public void setResetCodeExpiry(LocalDateTime resetCodeExpiry) {
+        this.resetCodeExpiry = resetCodeExpiry;
+    }
+    
 }
