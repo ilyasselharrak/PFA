@@ -422,6 +422,122 @@ export default function MesReclamationsPage() {
             )}
           </div>
         </div>
+              {showRejectModal && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setShowRejectModal(false)}>
+          <div className="bg-white rounded-lg w-full max-w-md shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
+              <h3 className="text-sm font-semibold text-gray-900">Renvoyer la reclamation</h3>
+              <button onClick={() => setShowRejectModal(false)} className="w-7 h-7 rounded-md hover:bg-gray-100 flex items-center justify-center text-gray-400">
+                <X size={16} />
+              </button>
+            </div>
+            <div className="p-5 space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">
+                  Expliquez pourquoi le probleme n'est pas resolu
+                </label>
+                <textarea
+                  value={rejectFeedback}
+                  onChange={(e) => setRejectFeedback(e.target.value)}
+                  rows={4}
+                  placeholder="Decrivez ce qui ne fonctionne pas encore..."
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 text-sm outline-none resize-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-colors"
+                />
+              </div>
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => setShowRejectModal(false)}
+                  className="flex-1 h-9 rounded-md border border-gray-200 text-sm text-gray-600 font-medium hover:bg-gray-50 transition-colors"
+                >
+                  Annuler
+                </button>
+                <button
+                  onClick={handleRejeter}
+                  disabled={confirming || !rejectFeedback.trim()}
+                  className="flex-1 h-9 rounded-md bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5"
+                >
+                  {confirming ? (
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  ) : (
+                    <><RotateCcw size={14} /> Renvoyer</>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {confirmDeleteId !== null && (
+        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
+          <div className="w-full max-w-sm bg-white rounded-lg border border-slate-200 shadow-xl">
+            <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-3">
+              <div className="w-8 h-8 rounded-md bg-red-50 flex items-center justify-center">
+                <Trash2 size={15} className="text-red-500" />
+              </div>
+              <h2 className="text-sm font-semibold text-gray-900">Supprimer la reclamation</h2>
+            </div>
+            <div className="px-5 py-4">
+              <p className="text-sm text-gray-500">Cette action est irreversible. La reclamation et tous ses messages seront supprimes.</p>
+            </div>
+            <div className="px-5 py-3 border-t border-gray-100 flex justify-end gap-2">
+              <button onClick={() => setConfirmDeleteId(null)} className="h-8 px-3 rounded-md border border-gray-200 text-xs font-medium text-gray-600 hover:bg-gray-50 transition-colors">
+                Annuler
+              </button>
+              <button
+                onClick={() => handleDeleteReclamation(confirmDeleteId)}
+                className="h-8 px-3 rounded-md bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition-colors"
+              >
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      {editingRec  && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setEditingRec(null)}>
+          <div className="bg-white rounded-lg w-full max-w-md shadow-xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
+              <h3 className="text-sm font-semibold text-gray-900">Modifier la reclamation</h3>
+              <button onClick={() => setEditingRec(null)} className="w-7 h-7 rounded-md hover:bg-gray-100 flex items-center justify-center text-gray-400">
+                <X size={16} />
+              </button>
+            </div>
+            <form onSubmit={handleEditReclamation} className="p-5 space-y-4">
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">Titre</label>
+                <input
+                  type="text"
+                  value={editForm.titre}
+                  onChange={(e) => setEditForm({ ...editForm, titre: e.target.value })}
+                  required
+                  className="w-full h-9 px-3 rounded-md border border-gray-300 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-colors"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-700 mb-1.5">Description</label>
+                <textarea
+                  value={editForm.description}
+                  onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                  required
+                  rows={4}
+                  className="w-full px-3 py-2 rounded-md border border-gray-300 text-sm outline-none resize-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-colors"
+                />
+              </div>
+              <div className="flex gap-2 pt-2">
+                <button type="button" onClick={() => setEditingRec(null)} className="flex-1 h-9 rounded-md border border-gray-200 text-sm text-gray-600 font-medium hover:bg-gray-50 transition-colors">
+                  Annuler
+                </button>
+                <button type="submit" disabled={submitting} className="flex-1 h-9 rounded-md bg-teal-600 text-white text-sm font-medium hover:bg-teal-700 transition-colors disabled:opacity-50 flex items-center justify-center">
+                  {submitting ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Enregistrer"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       </DashboardLayout>
     );
   }
@@ -622,122 +738,7 @@ export default function MesReclamationsPage() {
         </div>
       )}
 
-      {showRejectModal && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setShowRejectModal(false)}>
-          <div className="bg-white rounded-lg w-full max-w-md shadow-xl" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
-              <h3 className="text-sm font-semibold text-gray-900">Renvoyer la reclamation</h3>
-              <button onClick={() => setShowRejectModal(false)} className="w-7 h-7 rounded-md hover:bg-gray-100 flex items-center justify-center text-gray-400">
-                <X size={16} />
-              </button>
-            </div>
-            <div className="p-5 space-y-4">
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1.5">
-                  Expliquez pourquoi le probleme n'est pas resolu
-                </label>
-                <textarea
-                  value={rejectFeedback}
-                  onChange={(e) => setRejectFeedback(e.target.value)}
-                  rows={4}
-                  placeholder="Decrivez ce qui ne fonctionne pas encore..."
-                  className="w-full px-3 py-2 rounded-md border border-gray-300 text-sm outline-none resize-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-colors"
-                />
-              </div>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setShowRejectModal(false)}
-                  className="flex-1 h-9 rounded-md border border-gray-200 text-sm text-gray-600 font-medium hover:bg-gray-50 transition-colors"
-                >
-                  Annuler
-                </button>
-                <button
-                  onClick={handleRejeter}
-                  disabled={confirming || !rejectFeedback.trim()}
-                  className="flex-1 h-9 rounded-md bg-red-600 text-white text-sm font-medium hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-1.5"
-                >
-                  {confirming ? (
-                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  ) : (
-                    <><RotateCcw size={14} /> Renvoyer</>
-                  )}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
-      {confirmDeleteId !== null && (
-        <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
-          <div className="w-full max-w-sm bg-white rounded-lg border border-slate-200 shadow-xl">
-            <div className="px-5 py-4 border-b border-gray-100 flex items-center gap-3">
-              <div className="w-8 h-8 rounded-md bg-red-50 flex items-center justify-center">
-                <Trash2 size={15} className="text-red-500" />
-              </div>
-              <h2 className="text-sm font-semibold text-gray-900">Supprimer la reclamation</h2>
-            </div>
-            <div className="px-5 py-4">
-              <p className="text-sm text-gray-500">Cette action est irreversible. La reclamation et tous ses messages seront supprimes.</p>
-            </div>
-            <div className="px-5 py-3 border-t border-gray-100 flex justify-end gap-2">
-              <button onClick={() => setConfirmDeleteId(null)} className="h-8 px-3 rounded-md border border-gray-200 text-xs font-medium text-gray-600 hover:bg-gray-50 transition-colors">
-                Annuler
-              </button>
-              <button
-                onClick={() => handleDeleteReclamation(confirmDeleteId)}
-                className="h-8 px-3 rounded-md bg-red-600 text-white text-xs font-medium hover:bg-red-700 transition-colors"
-              >
-                Supprimer
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {editingRec && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-4" onClick={() => setEditingRec(null)}>
-          <div className="bg-white rounded-lg w-full max-w-md shadow-xl" onClick={(e) => e.stopPropagation()}>
-            <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
-              <h3 className="text-sm font-semibold text-gray-900">Modifier la reclamation</h3>
-              <button onClick={() => setEditingRec(null)} className="w-7 h-7 rounded-md hover:bg-gray-100 flex items-center justify-center text-gray-400">
-                <X size={16} />
-              </button>
-            </div>
-            <form onSubmit={handleEditReclamation} className="p-5 space-y-4">
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1.5">Titre</label>
-                <input
-                  type="text"
-                  value={editForm.titre}
-                  onChange={(e) => setEditForm({ ...editForm, titre: e.target.value })}
-                  required
-                  className="w-full h-9 px-3 rounded-md border border-gray-300 text-sm outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-colors"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1.5">Description</label>
-                <textarea
-                  value={editForm.description}
-                  onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
-                  required
-                  rows={4}
-                  className="w-full px-3 py-2 rounded-md border border-gray-300 text-sm outline-none resize-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-colors"
-                />
-              </div>
-              <div className="flex gap-2 pt-2">
-                <button type="button" onClick={() => setEditingRec(null)} className="flex-1 h-9 rounded-md border border-gray-200 text-sm text-gray-600 font-medium hover:bg-gray-50 transition-colors">
-                  Annuler
-                </button>
-                <button type="submit" disabled={submitting} className="flex-1 h-9 rounded-md bg-teal-600 text-white text-sm font-medium hover:bg-teal-700 transition-colors disabled:opacity-50 flex items-center justify-center">
-                  {submitting ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : "Enregistrer"}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </DashboardLayout>
   );
 }
