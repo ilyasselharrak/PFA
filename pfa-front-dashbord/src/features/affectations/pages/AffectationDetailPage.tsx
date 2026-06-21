@@ -15,6 +15,7 @@ import ClientFilesSection from "../components/ClientFilesSection";
 import AgentFilesSection from "../components/AgentFilesSection";
 import TraitementReclamationSection from "../components/TraitementReclamationSection";
 import CommentairesSection from "../components/CommentairesSection";
+import { Check } from "lucide-react";
 
 export default function AffectationDetailPage() {
 	const { id } = useParams();
@@ -198,6 +199,7 @@ export default function AffectationDetailPage() {
 			console.error(e);
 		}
 	};
+	const isResolu = reclamation?.status?.status === "résolu";
 
 	if (loading) {
 		return (
@@ -233,7 +235,7 @@ export default function AffectationDetailPage() {
 						deleteFile={deleteFile}
 					/>
 				</div>
-
+				{!isResolu && (
 				<TraitementReclamationSection
 					statuses={statuses}
 					selectedStatus={selectedStatus}
@@ -242,7 +244,24 @@ export default function AffectationDetailPage() {
 					setReponse={setReponse}
 					traiterReclamation={traiterReclamation}
 				/>
-
+				)}
+				{isResolu && (
+					<div className="bg-white rounded-lg border border-slate-200 overflow-hidden">
+						<div className="px-4 py-3 border-b border-slate-200 flex items-center gap-2.5">
+							<div className="w-8 h-8 rounded-md bg-green-50 flex items-center justify-center">
+								<Check size={15} className="text-green-600" />
+							</div>
+							<div>
+								<h2 className="text-sm font-bold text-slate-900">Réclamation résolue</h2>
+								<p className="text-[11px] text-slate-500">
+									Cette réclamation a été marquée comme résolue.
+									en attente de validation par administration
+								</p>
+							</div>
+						</div>
+					</div>							
+					
+					)}
 				<CommentairesSection
 					commentaires={commentaires}
 					message={message}
@@ -251,6 +270,7 @@ export default function AffectationDetailPage() {
 					sending={sending}
 					user={user}
 					onRefresh={loadCommentaires}
+					isResolu = {isResolu}
 				/>
 			</div>
 		</DashboardLayout>

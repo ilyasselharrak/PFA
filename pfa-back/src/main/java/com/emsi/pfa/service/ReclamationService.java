@@ -223,7 +223,7 @@ public class ReclamationService {
         String email = authentication.getName();
         User admin = userRepository.findByEmail(email)
             .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
-        if (!"admin".equals(admin.getRole().getName())) {
+        if (!"admin".equals(admin.getRole().getName()) && !"manager".equals(admin.getRole().getName())) {
             throw new RuntimeException("Accès refusé");
         }
 
@@ -304,6 +304,8 @@ public class ReclamationService {
         if (!reclamation.getClient().getId().equals(user.getClient().getId())) {
             throw new RuntimeException("Accès refusé");
         }
+        User agent = userRepository.findByEmail(reclamation.getAffectations().get(0).getAgent().getUser().getEmail())
+            .orElseThrow(() -> new RuntimeException("Agent introuvable"));
 
         Status enAttente = statusRepository.findById(1L)
             .orElseThrow(() -> new RuntimeException("Status introuvable"));
@@ -330,7 +332,7 @@ public class ReclamationService {
         List<User> toNotify = new ArrayList<>();
         toNotify.addAll(admins);
         toNotify.addAll(managers);
-
+        toNotify.add(agent);
         for (User u : toNotify) {
             Notification notification = new Notification();
             notification.setUser(u);

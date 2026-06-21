@@ -11,6 +11,7 @@ type Props = {
 	sending: boolean;
 	user: AuthUser | null;
 	onRefresh?: () => void;
+	isResolu : boolean;
 };
 
 export default function CommentairesSection({
@@ -21,9 +22,12 @@ export default function CommentairesSection({
 	sending,
 	user,
 	onRefresh,
+	isResolu,
 }: Props) {
 	const [approvingId, setApprovingId] = useState<number | null>(null);
 	const isAdmin = user?.role === "admin";
+	const isManager = user?.role === "manager";
+
 
 	const handleKey = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
 		if (e.key === "Enter" && !e.shiftKey) {
@@ -112,7 +116,7 @@ export default function CommentairesSection({
 										</div>
 									</div>
 								</div>
-								{isPending && isAdmin && (
+								{isPending && isAdmin || isManager && (
 									<div className="flex justify-start mt-1.5 ml-1">
 										<button
 											onClick={() => handleApprouver(c.id)}
@@ -132,7 +136,7 @@ export default function CommentairesSection({
 					})
 				)}
 			</div>
-
+			{!isResolu && (
 			<div className="border-t border-slate-200 p-4 bg-slate-50">
 				<div className="flex items-end gap-3">
 					<textarea
@@ -156,6 +160,7 @@ export default function CommentairesSection({
 					</button>
 				</div>
 			</div>
+			)}
 		</div>
 	);
 }

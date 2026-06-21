@@ -363,7 +363,7 @@ export default function ReclamationDetailPage() {
 										<p className={`text-sm leading-relaxed ${isPending ? "text-slate-400" : "text-slate-700"}`}>
 											{c.contenu}
 										</p>
-										{isPending && authUser?.role === "admin" && (
+										{isPending && authUser?.role === "admin" || authUser?.role === "manager" && (
 											<div className="mt-3 pt-3 border-t border-slate-200">
 												<button
 													onClick={() => handleApprouverCommentaire(c.id)}

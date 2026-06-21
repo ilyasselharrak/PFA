@@ -48,12 +48,13 @@ export default function EditUserDialog({
 			setSaving(true);
 			setError("");
 
-			const payload: any = {
+			const payload: User = {
 				nom: form.nom,
 				prenom: form.prenom,
 				email: form.email,
 				role: {
 					id: Number(form.roleId),
+					name : roles.find((r) => r.id === Number(form.roleId))?.name || "",
 				},
 			};
 

@@ -144,4 +144,9 @@ public class Reclamation {
     public void setConfirmeParClient(Boolean confirmeParClient) {
         this.confirmeParClient = confirmeParClient;
     }
+
+    public List<Affectation> getAffectations() {
+        return affectations;
+    }
+    
 }

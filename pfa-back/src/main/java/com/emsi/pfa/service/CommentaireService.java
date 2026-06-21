@@ -96,7 +96,7 @@ public class CommentaireService {
         User admin = userRepository.findByEmail(email)
             .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
 
-        if (!"admin".equals(admin.getRole().getName())) {
+        if (!"admin".equals(admin.getRole().getName()) && !"manager".equals(admin.getRole().getName())) {
             throw new RuntimeException("Accès refusé");
         }
 

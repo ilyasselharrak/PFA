@@ -310,6 +310,9 @@ export default function MesAffectationsPage() {
 									<p className="text-sm text-slate-500 leading-relaxed line-clamp-1">
 										{a.reclamation?.description || "Pas de description"}
 									</p>
+									<p className="text-sm text-slate-500 leading-relaxed line-clamp-1">
+									Commentaire de Manager : {a.commentaire || "Pas de description"}
+									</p>
 
 									<div className="flex items-center gap-4 mt-3 flex-wrap">
 										<div className="flex items-center gap-1.5 text-xs text-slate-500">
