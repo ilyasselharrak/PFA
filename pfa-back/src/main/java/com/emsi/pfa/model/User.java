@@ -52,9 +52,7 @@ public class User {
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Client client;
-    @OneToMany(mappedBy = "user",
-           cascade = CascadeType.ALL,
-           orphanRemoval = true)
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
